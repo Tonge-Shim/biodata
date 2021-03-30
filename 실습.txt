@@ -1,0 +1,78 @@
+from Bio.Data import CodonTable
+codon_table  = CodonTable.unambiguous_dna_by_name["Standard"]#Vertebrate Mitochondrial를 대괄호 안에 넣어보면...다른 결과!
+print(codon_table)
+
+-------------------------------
+
+from Bio.Seq import Seq
+
+tatabox_seq = Seq("tatatatatgcccaaatatagcatgata")
+start_idx = tatabox_seq.find("atg")
+end_idx = tatabox_seq.find("tag", start_idx)
+orf = tatabox_seq[start_idx:end_idx+3]
+print(orf)
+print(start_idx)
+print(end_idx)
+
+-------------------------------
+
+
+
+
+
+
+
+GC-contents.py
+import Bio
+
+from Bio.Seq import Seq
+from Bio.SeqUtils import GC
+
+exon_seq = Seq("atgcagtag")
+gc_contents = GC(exon_seq)
+print(gc_contents) #gc의 함량 비율을 나타내준다. ex) 44.4444444...
+
+---------------------------------
+
+
+molecular weight.py
+
+from Bio.Seq import Seq
+from Bio.SeqUtils import molecular_weight
+
+seq1 = Seq("ATGCAGTAG")#얘가 T가 없고 U만 있으면 아래 함수에서 바로 오류가 난다.
+print(molecular_weight(seq1))#dna로 인식을 한다. default가 dna.
+#print(molecular_weight(seq1, seq_type = "RNA"))#dna의 T는 rna 에서 U로 바뀌는데, 여기서 RNA로 읽으라고 했으니 오류가 난다.
+print(molecular_weight(seq1, seq_type = "protein"))
+
+---------------------------------
+
+<가능한 모든 번역 구하기.>
+from Bio.Seq import Seq
+from Bio.SeqUtils import six_frame_translations
+
+seq1 = Seq("ATGCCTTGAAATGTATAG")
+print(six_frame_translations(seq1))
+
+---------------------------------
+
+<calc_melting temp.py>
+#gc엔 수소의 삼중결합 덕분에 많을수록 녹는점이 올라간다.
+from Bio.Seq import Seq
+from Bio.SeqUtils import MeltingTemp as mt
+
+seq1 = Seq("ATGCCTTGAAATGTATGGGGGCCCCCCCAG")
+print(mt.Tm_Wallace(seq1))
+
+---------------------------------
+aminoacid.py
+
+from Bio.SeqUtils import seq1# seq3의 경우 반대의 변환을 해준다. 약자를 대문자로...(?)
+
+essential_amino_acid_3 = "LeuLysMetVallleThrTrpPhe"
+print(seq1(essential_amino_acid_3))
+
+
+
+
+
